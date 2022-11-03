@@ -1,0 +1,25 @@
+{% extends 'parts/main.html' %}
+
+{% block content %}
+    <div class="container-xl">
+       <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{% url 'delete' employee.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ employee.id }}">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Delete Employee - {{ employee.name }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete these Records?</p>
+                        <p class="text-warning"><small>This action cannot be undone.</small></p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{% url 'index' %}" class="btn btn-warning"> Cancel</a>
+                        <input type="submit" class="btn btn-danger" value="Delete">
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'parts/main.html' %}
+
+{% block content %}
+<div class="container-xl">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Manage <b>Employees</b></h2>
+                    </div>
+                    <div class="col-sm-6">
+                        <a href="{% url 'create' %}" class="btn btn-success">
+                            <i class="material-icons">&#xE147;</i> <span>Add New Employee</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for employee in employees %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ employee.name }}</td>
+                        <td>{{ employee.email }}</td>
+                        <td>{{ employee.age_year }}</td>
+                        <td>{{ employee.address }}</td>
+                        {% if employee.status %}
+                            <td><span class="status text-success">&bull;</span> Active</td>
+                        {% else %}
+                            <td><span class="status text-danger">&bull;</span> Inactive</td>
+                        {% endif %}
+                        <td>{{ employee.phone }}</td>
+                        <td>
+                            <a href="{% url 'update' employee.id %}" class="edit">
+                                <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
+                            </a>
+                            <a href="{% url 'delete' employee.id %}" class="delete">
+                                <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="clearfix">
+                <div class="hint-text">Showing <b>{{ employees.count }}</b> out of <b>{{ paginator.count }}</b> entries
+                </div>
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a href="{% url 'page' page_obj.previous_page_number %}" class="page-link">Previous</a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item active">
+                        <a href="{% url 'page' page_obj.number %}" class="page-link">{{ page_obj.number }}</a>
+                    </li>
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a href="{% url 'page' page_obj.next_page_number %}" class="page-link">Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
